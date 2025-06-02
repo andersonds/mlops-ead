@@ -56,8 +56,8 @@ def create_model(X):
     return model
 
 def config_mlflow():
-    os.environ['MLFLOW_TRACKING_USERNAME'] = 'renansantosmendes'
-    os.environ['MLFLOW_TRACKING_PASSWORD'] = '6d730ef4a90b1caf28fbb01e5748f0874fda6077'
+    os.environ['MLFLOW_TRACKING_USERNAME'] =  'andersonds' #'renansantosmendes'
+    os.environ['MLFLOW_TRACKING_PASSWORD'] = '2xyMFvzxfpOlSzA1545hJSNotHZ_6xpZHP4W6foo4EjRMN8vd'#'6d730ef4a90b1caf28fbb01e5748f0874fda6077'
     mlflow.set_tracking_uri('https://dagshub.com/renansantosmendes/mlops-ead.mlflow')
     mlflow.tensorflow.autolog(log_models=True,
                               log_input_examples=True,
