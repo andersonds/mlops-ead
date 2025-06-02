@@ -46,7 +46,7 @@ def process_data(X, y):
 def create_model(X):
     reset_seeds()
     model = Sequential()
-    model.add(InputLayer(shape=(X_train.shape[1], )))
+    model.add(InputLayer(input_shape=(X.shape[1], )))
     model.add(Dense(10, activation='relu'))
     model.add(Dense(10, activation='relu'))
     model.add(Dense(3, activation='softmax'))
@@ -62,7 +62,7 @@ def config_mlflow():
     mlflow.tensorflow.autolog(log_models=True,
                               log_input_examples=True,
                               log_model_signatures=True)
-def train_model(model):
+def train_model(model, X_train, y_train, is_train=True ):
     with mlflow.start_run(run_name='experiment_mlops_ead') as run:
        model.fit(X_train,
                  y_train,
@@ -75,5 +75,5 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = process_data(X, y)
     model = create_model(X)
     config_mlflow()
-    train_model(model)
+    train_model(model, X_train,y_train)
 
