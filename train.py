@@ -1,17 +1,14 @@
 import os
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import random
 import mlflow
 import numpy as np
 import random as python_random
 import tensorflow
 import tensorflow as tf
-# from caffe2.python.lstm_benchmark import create_model
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, InputLayer
 from keras.utils import to_categorical
-# from torch import caffe2
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
@@ -64,11 +61,18 @@ def config_mlflow():
                               log_model_signatures=True)
 def train_model(model, X_train, y_train, is_train=True ):
     with mlflow.start_run(run_name='experiment_mlops_ead') as run:
-       model.fit(X_train,
-                 y_train,
+       X_train_np = X_train.values
+       y_train_np = y_train.values
+       model.fit(X_train_np,
+                 y_train_np,
                  epochs=50,
                  validation_split=0.2,
                  verbose=3)
+       mlflow.tensorflow.log_model(
+                 model=model,  # Note a mudança no nome do parâmetro
+                 artifact_path="model",
+                 registered_model_name="fetal_health")
+
 
 if __name__ == "__main__":
     X, y = read_data()
