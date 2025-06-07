@@ -17,7 +17,6 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-
 app = FastAPI(title="Fetal Health API",
               openapi_tags=[
                   {
@@ -29,6 +28,7 @@ app = FastAPI(title="Fetal Health API",
                       "description": "Model prediction"
                   }
               ])
+
 
 def load_model():
     """
@@ -46,9 +46,9 @@ def load_model():
         None
     """
     logging.info('reading model...')
-    MLFLOW_TRACKING_URI = 'https://dagshub.com/andersonds/MLOps.mlflow' # 'https://dagshub.com/renansantosmendes/puc_lectures_mlops.mlflow'
-    MLFLOW_TRACKING_USERNAME = 'andersonds' # 'renansantosmendes'
-    MLFLOW_TRACKING_PASSWORD = '5b34bdb504e26408de637c489b1fcf37f50c4629' #'6d730ef4a90b1caf28fbb01e5748f0874fda6077'
+    MLFLOW_TRACKING_URI =  'https://dagshub.com/renansantosmendes/puc_lectures_mlops.mlflow'
+    MLFLOW_TRACKING_USERNAME = 'renansantosmendes'
+    MLFLOW_TRACKING_PASSWORD = '6d730ef4a90b1caf28fbb01e5748f0874fda6077'
     os.environ['MLFLOW_TRACKING_USERNAME'] = MLFLOW_TRACKING_USERNAME
     os.environ['MLFLOW_TRACKING_PASSWCD ORD'] = MLFLOW_TRACKING_PASSWORD
     logging.info('setting mlflow...')
@@ -67,6 +67,7 @@ def load_model():
     loaded_model = mlflow.pyfunc.load_model(f'runs:/{run_id}/model')
     logging.info(loaded_model)
     return loaded_model
+
 
 @app.on_event(event_type='startup')
 def startup_event():
@@ -96,10 +97,10 @@ def api_health():
     """
     return {"status": "healthy"}
 
+
 @app.post(path='/predict',
           tags=['Prediction'])
 def predict(request: FetalHealthData):
-    #load_model()
     """
     Predicts the fetal health based on the given request data.
 
